@@ -24,26 +24,40 @@ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB8
 
 > If you already has RVM
 ```sh
-rvm get head # if using rvm - check .bashrc, .zshrc, etc, possible reboot
+rvm get head
 ```
 
-```
-rvm install ruby-2.2.10
-rvm use ruby-2.2.10
-```
-
-add to ~/.bashrc or ~/.zshrc
+Add to ~/.bashrc or ~/.zshrc
 ```
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 ```
 
-Sometines restart is needed, or send source ~/.profile on each term
+Sometines restart is needed. To avoid, do on each terminal:
+```
+source ~/.profile on each term
+```
+
+## Install ruby 2.2.10
+```
+rvm install ruby-2.2.10 --default
+rvm use ruby-2.2.10
+gem install rails
+```
+
+## Check who is providing ruby
+```
+which ruby
+```
+Result should be something like
+/home/your-user/.rvm/rubies/ruby-2.2.10/bin/ruby
+
+If ruby is provided by /usr/bin/ruby, uninstall it of your linux
+package manager (apt, pacman, etc)
 
 ## Create a new Rails application under the repository directory
 
 ```sh
 cd rails-docker-alpine
-
 
 rails new . --database=postgresql
 ```
