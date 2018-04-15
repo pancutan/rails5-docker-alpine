@@ -5,22 +5,50 @@ application.
 I also provide a docker-compose file to run your project using a PostgreSQL
 database.
 
+Based on https://github.com/pacuna/rails5-docker-alpine - thanks Pablo!
+
 ## Trying out the image
 
 Clone the repository:
 
 ```sh
-git clone git@github.com:pacuna/rails5-docker-alpine.git
+git clone git@github.com:pancutan/rails5-docker-alpine.git
 ```
 
-Create a new Rails application under the repository directory
+## Install on local machine for first deploy, RVM (more info in rvm.io)
+```sh
+gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+
+\curl -sSL https://get.rvm.io | bash -s stable
+```
+
+> If you already has RVM
+```sh
+rvm get head # if using rvm - check .bashrc, .zshrc, etc, possible reboot
+```
+
+```
+rvm install ruby-2.2.10
+rvm use ruby-2.2.10
+```
+
+add to ~/.bashrc or ~/.zshrc
+```
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+```
+
+Sometines restart is needed, or send source ~/.profile on each term
+
+## Create a new Rails application under the repository directory
 
 ```sh
 cd rails-docker-alpine
+
+
 rails new . --database=postgresql
 ```
 
-Modify your database configuration to use the postgresql container configuration:
+## Modify your database configuration to use the postgresql container configuration:
 
 ```yaml
 default: &default
@@ -33,20 +61,20 @@ default: &default
   username: postgres
 ```
 
-Build the project:
+# Build the project:
 
 ```sh
 docker-compose build
 ```
 
-Create the database and run the migrations:
+# Create the database and run the migrations:
 
 ```
 docker-compose run --rm web bin/rails db:create
 docker-compose run --rm web bin/rails db:migrate
 ```
 
-Run the app:
+# Run the app:
 
 ```sh
 docker-compose up -d
@@ -55,7 +83,15 @@ docker-compose up -d
 Visit your application at localhost:3000.
 
 Tested with:
-- Ruby 2.4.2p198 (2017-09-14 revision 59899) [x86_64-linux]
-- Rails 5.0.6 (to create the new application)
-- Docker version 1.13.1, build fbadd78-unsupported
-- Rocker-compose version 1.17.1, build 6d101fb
+- Ruby 2.2.10
+- Rails 5.2 (to create the new application)
+- Docker version 18.03.0-ce, build 0520e2430
+- docker-compose version 1.21.0, build unknown
+
+- Local
+  - rvm 
+  - DISTRIB_ID=ManjaroLinux
+  - DISTRIB_RELEASE=17.1.7
+  - DISTRIB_CODENAME=Hakoila
+
+
