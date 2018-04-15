@@ -15,7 +15,8 @@ Clone the repository:
 git clone git@github.com:pancutan/rails5-docker-alpine.git
 ```
 
-## Install on local machine for first deploy, RVM (more info in rvm.io)
+## Install on local machine for first deploy, RVM
+ (more info in rvm.io)
 ```sh
 gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 
@@ -32,7 +33,7 @@ Add to ~/.bashrc or ~/.zshrc
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 ```
 
-Sometines restart is needed. To avoid, do on each terminal:
+Sometimes restart is needed. To avoid, do on each terminal:
 ```
 source ~/.profile on each term
 ```
@@ -105,7 +106,7 @@ Tested with:
 - Local
   - rvm 
   - DISTRIB_ID=ManjaroLinux
-  - DISTRIB_RELEASE=17.1.7
+  - DISTRIB_RELEASE=17.1.8
   - DISTRIB_CODENAME=Hakoila
 
 

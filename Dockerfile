@@ -34,9 +34,9 @@ EXPOSE 3000
 # Lesson 1: gems with C bindings cause problems
 # https://medium.com/@igor.petrov/lessons-learned-from-first-attempt-of-dockerizing-ruby-on-rails-app-7e5eb9004265
 
-# APIQ has a dependency on well-known therubyracer (and actually 
-# libv8) gem. If you ever worked on dockerizing Rails app with 
-# such dependency, you know what I’m talking about. After 
+# APIQ has a dependency on well-known therubyracer (and actually
+# libv8) gem. If you ever worked on dockerizing Rails app with
+# such dependency, you know what I’m talking about. After
 # spending some time on googling, I’ve came to this:
 # ENV LIBV8_VERSION 3.16.14.18
 
