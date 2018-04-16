@@ -2,19 +2,27 @@ FROM ruby:2.2.10-alpine3.4
 
 LABEL maintainer="escuelaint@gmail.com"
 
+# RUN echo “#!/bin/sh\n” > /test.sh
+# RUN echo “echo \”this is version 1\”” >> /test.sh
+# ENTRYPOINT [“sh”, “/test.sh”]
+
 # Minimal requirements to run a Rails app
 RUN apk add --no-cache --update build-base \
                                 linux-headers \
                                 git \
+                                vim \
+                                mc \
                                 postgresql-dev \
                                 nodejs \
                                 tzdata
 
 ENV APP_PATH /usr/src/app
+ENV HOME=/usr/src/app PATH=/usr/src/app/bin:$PATH
+
 ENV LANG C.UTF-8
 
 # Different layer for gems installation
-WORKDIR $APP_PATH
+WORKDIR /usr/src/app
 
 ADD Gemfile $APP_PATH
 ADD Gemfile.lock $APP_PATH
