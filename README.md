@@ -89,6 +89,13 @@ docker-compose run --rm web bin/rails db:create
 docker-compose run --rm web bin/rails db:migrate
 ```
 
+# Run the app by first time. Use -d if you want to detach.
+
+```sh
+docker-compose run --rm web /bin/sh
+docker-compose up -d
+```
+
 # Examine database created
 ```bash
 $ docker exec -it rails5-docker-alpine_postgres_1 /bin/bash
@@ -101,12 +108,6 @@ $ psql
 postgres=# \l
 ```
 
-# Run the app by first time:
-
-```sh
-docker-compose run --rm web /bin/sh
-docker-compose up -d
-```
 
 Visit your application at localhost:3000.
 

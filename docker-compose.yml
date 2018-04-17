@@ -48,7 +48,7 @@ services:
     tty: true
     environment:
       # Notice that this is the DB we'll use:
-      DATABASE_URL: postgres://postgres:s0m3p455@db:5432/my_app_development
+      DATABASE_URL: postgres://postgres:s0m3p455@db:5432/biblioteca_development
       # We'll use this env variable to make the log output gets directed
       # to Docker:
       RAILS_LOG_TO_STDOUT: "true"
