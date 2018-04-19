@@ -37,6 +37,7 @@ services:
     #entrypoint: /usr/src/app/development-entrypoint
     volumes:
       # Mounts the app code (".") into the container's "/usr/src/app" folder:
+      # Now you can code with your favorite editor on the local folder of your OS
       - .:/usr/src/app
       # Mounts a persistable volume in the installed gems folder, so we can add
       # gems to the app without having to build the development image again:

@@ -35,7 +35,7 @@ Add to ~/.bashrc or ~/.zshrc
 
 Sometimes restart is needed. To avoid, do on each terminal:
 ```
-source ~/.profile on each term
+source ~/.profile
 ```
 
 ## Install ruby 2.2.10
@@ -76,6 +76,8 @@ default: &default
   username: postgres
 ```
 
+## Unless you do testing, comment database section
+
 # Build the project:
 
 ```sh
@@ -96,7 +98,7 @@ docker-compose run --rm web /bin/sh
 docker-compose up -d
 ```
 
-# Examine database created
+# Just for fun, examine database created
 ```bash
 $ docker exec -it rails5-docker-alpine_postgres_1 /bin/bash
 ```
@@ -108,8 +110,40 @@ $ psql
 postgres=# \l
 ```
 
+Visit your application at http://localhost:3000
 
-Visit your application at localhost:3000.
+# How to work
+Next steps is to add code, migrations and so on to the project. You can enter and code inside the container, or you can work on where project is mount (folder .), which is linked with /usr/src/app
+
+## Enter the container and work inside
+* Database:
+```
+docker exec -it rails5dockeralpine_postgres_1 /bin/bash
+```
+* Web app:
+```
+docker exec -it rails5dockeralpine_web_1 /bin/sh
+```
+
+If you will work on your local mounted folder, go ahead:
+
+First things you have to keep on mid is that scripts must run inside the container.
+Take for instance, I use to debug with Pry. In that so, in Gemfile I remove byebug and put inside, on development and test section:
+```
+gem 'pry-auditlog' # Ver en ~/.pryrc en esta carpeta ~/Trucos/Ruby/Debug/
+gem 'pry'
+gem 'pry-byebug'
+gem 'pry-rescue'
+gem 'pry-stack_explorer'
+gem 'pry-auditlog'
+gem 'pry-rails'
+gem 'awesome_print'
+```
+
+After that, a bundled is needed:
+docker-compose run --rm web bin/bundle install
+docker-compose run --rm web bin/rails generate scaffold author name:string surname:string
+
 
 Tested with:
 - Ruby 2.2.10
