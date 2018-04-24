@@ -14,23 +14,39 @@ RUN apk add --no-cache --update build-base \
                                 mc \
                                 postgresql-dev \
                                 nodejs \
-                                tzdata
+                                tzdata \
+                                sudo
 
-ENV APP_PATH /usr/src/app
-ENV HOME=/usr/src/app PATH=/usr/src/app/bin:$PATH
+ENV HOME=/home/s
+ENV PATH=/usr/src/app/bin:$PATH
 
 ENV LANG C.UTF-8
 
-# Different layer for gems installation
 WORKDIR /usr/src/app
 
-ADD Gemfile $APP_PATH
-ADD Gemfile.lock $APP_PATH
+# To prevent root owned files created by the container, on host filesystem
+# En Ubuntu: RUN adduser --system --group --shell /bin/sh s \
+#                && mkdir /home/s && chown s:s /usr/src/app -R
+
+# In Alpine "web"
+# To work with
+# docker exec -it --user s --workdir /home/s rails5dockeralpine_web_1 /bin/sh
+RUN addgroup -S s && \
+    adduser -u 1000 -h /home/s -D -s /bin/sh -G wheel s && \
+    chown s:s /usr/src/app -R
+
+USER s
+
+COPY sudoers /etc
+COPY Gemfile /usr/src/app
+COPY Gemfile.lock /usr/src/app
 
 RUN bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3
 
-# Copy the application into the container
-COPY . APP_PATH
+# Copy the application into the container.
+# Prefer COPY instead ADD - see https://stackoverflow.com/questions/24958140/what-is-the-difference-between-the-copy-and-add-commands-in-a-dockerfile
+COPY . /usr/src/app
+
 EXPOSE 3000
 
 # Otras cosas para hacer

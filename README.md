@@ -100,7 +100,7 @@ docker-compose up -d
 
 # Just for fun, examine database created
 ```bash
-$ docker exec -it rails5-docker-alpine_postgres_1 /bin/bash
+$ docker exec -it --user s --workdir /home/s rails5dockeralpine_web_1 /bin/sh
 ```
 
 And, once inside:
