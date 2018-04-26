@@ -100,6 +100,11 @@ docker-compose up -d
 
 # Just for fun, examine database created
 ```bash
+$ docker exec -it rails5dockeralpine_web_1 /bin/sh
+
+# O si se quiere ser mas especifico... innecesario si se enviaron las correctas
+# variables vía ENV: HOME=/home/s PATH=/usr/src/app/bin:$PATH 
+
 $ docker exec -it --user s --workdir /home/s rails5dockeralpine_web_1 /bin/sh
 ```
 

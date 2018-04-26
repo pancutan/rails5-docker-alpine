@@ -20,11 +20,17 @@ services:
       POSTGRES_PASSWORD: s0m3p455
 
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    # The name our development image will use:
-    image: pancutan/biblioteca:development
+    # Option 1 - Build locally,
+    # build:
+    #    context: .
+    #    dockerfile: Dockerfile
+    #
+    # Option 2 - Bring from Dockerhub
+    # image: pancutan/biblioteca:development
+    #
+    # Option 3 - Bring from intranet registry
+    image: hub.supercanal.tv:5000/biblioteca
+    #
     command: rails server -b 0.0.0.0 -p 3000
     ports:
       # This will bind your port 3000 with the container's port 3000, so we can
