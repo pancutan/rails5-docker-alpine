@@ -30,13 +30,14 @@ WORKDIR /usr/src/app
 
 # In Alpine "web"
 # To work with
-# docker exec -it --user s --workdir /home/s rails5dockeralpine_web_1 /bin/sh
+# docker exec -it rails5dockeralpine_web_1 /bin/sh
 RUN addgroup -S s && \
     adduser -u 1000 -h /home/s -D -s /bin/sh -G wheel s && \
     chown s:s /usr/src/app -R
 
 USER s
 
+# Note: later, you can copy to/from the instance by using "docker cp"
 COPY sudoers /etc
 COPY Gemfile /usr/src/app
 COPY Gemfile.lock /usr/src/app

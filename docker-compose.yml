@@ -24,7 +24,8 @@ services:
       context: .
       dockerfile: Dockerfile
     # The name our development image will use:
-    image: pancutan/biblioteca:development
+    # image: pancutan/biblioteca:development
+    image: hub.supercanal.tv:5000/biblioteca
     command: rails server -b 0.0.0.0 -p 3000
     ports:
       # This will bind your port 3000 with the container's port 3000, so we can
