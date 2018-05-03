@@ -7,6 +7,7 @@ LABEL maintainer="escuelaint@gmail.com"
 # ENTRYPOINT [“sh”, “/test.sh”]
 
 # Minimal requirements to run a Rails app
+# postgresql-client is only to play with bin/rails dbconsole
 RUN apk add --no-cache --update build-base \
                                 linux-headers \
                                 git \
@@ -15,7 +16,7 @@ RUN apk add --no-cache --update build-base \
                                 postgresql-dev \
                                 nodejs \
                                 tzdata \
-                                sudo
+                                postgresql-client
 
 ENV HOME=/home/s
 ENV PATH=/usr/src/app/bin:$PATH

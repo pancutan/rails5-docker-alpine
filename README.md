@@ -91,28 +91,30 @@ docker-compose run --rm web bin/rails db:create
 docker-compose run --rm web bin/rails db:migrate
 ```
 
-# Run the app by first time. Use -d if you want to detach.
+# Run the app
+This is for first time to check things. Add -d if you want to detach.
 
 ```sh
 docker-compose run --rm web /bin/sh
-docker-compose up -d
+COMPOSE_HTTP_TIMEOUT=200 docker-compose up -d
 ```
 
-# Just for fun, examine database created
+# Exercises, just for fun
+Examine database created:
 ```bash
 $ docker exec -it rails5dockeralpine_web_1 /bin/sh
-
-# O si se quiere ser mas especifico... innecesario si se enviaron las correctas
-# variables vía ENV: HOME=/home/s PATH=/usr/src/app/bin:$PATH 
-
-$ docker exec -it --user s --workdir /home/s rails5dockeralpine_web_1 /bin/sh
+/usr/src/app $ rails dbconsole
+Password:
+biblioteca_development=# \l
+                                       List of databases
+          Name          |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges
+------------------------+----------+----------+------------+------------+-----------------------
+biblioteca_development | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
 ```
 
-And, once inside:
-```
-# su - postgres
-$ psql
-postgres=# \l
+Enter with root privileges, to install things
+```bash
+docker exec -it --user root rails5dockeralpine_web_1 /bin/sh
 ```
 
 Visit your application at http://localhost:3000
@@ -122,11 +124,11 @@ Next steps is to add code, migrations and so on to the project. You can enter an
 
 ## Enter the container and work inside
 * Database:
-```
+```bash
 docker exec -it rails5dockeralpine_postgres_1 /bin/bash
 ```
 * Web app:
-```
+```bash
 docker exec -it rails5dockeralpine_web_1 /bin/sh
 ```
 
@@ -134,7 +136,7 @@ If you will work on your local mounted folder, go ahead:
 
 First things you have to keep on mid is that scripts must run inside the container.
 Take for instance, I use to debug with Pry. In that so, in Gemfile I remove byebug and put inside, on development and test section:
-```
+```gemfile
 gem 'pry-auditlog' # Ver en ~/.pryrc en esta carpeta ~/Trucos/Ruby/Debug/
 gem 'pry'
 gem 'pry-byebug'
@@ -146,9 +148,10 @@ gem 'awesome_print'
 ```
 
 After that, a bundled is needed:
+```bash
 docker-compose run --rm web bin/bundle install
 docker-compose run --rm web bin/rails generate scaffold author name:string surname:string
-
+```
 
 Tested with:
 - Ruby 2.2.10
@@ -157,7 +160,7 @@ Tested with:
 - docker-compose version 1.21.0, build unknown
 
 - Local
-  - rvm 
+  - rvm
   - DISTRIB_ID=ManjaroLinux
   - DISTRIB_RELEASE=17.1.8
   - DISTRIB_CODENAME=Hakoila
@@ -168,6 +171,7 @@ so, try a modern ruby, like 2.4.4 with actual stable Alpine - ruby:2.4.4-alpine3
 Ref:
 * https://hub.docker.com/_/ruby/
   * → https://github.com/docker-library/ruby/blob/1bd8b466277668bff50528b26360e6e451e4dae4/2.4/alpine3.6/Dockerfile
-  
+
 # Greetings:
 * https://github.com/IcaliaLabs/guides/wiki/Creating-a-new-Rails-application-project-with-Docker
+* https://github.com/pacuna/rails5-docker-alpine - thanks, again, Pablo!
