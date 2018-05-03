@@ -2,6 +2,8 @@ version: "2"
 
 volumes:
   postgres-data:
+    # "local" → Means that will store on /var/lib/docker/volumes/
+    #           By this way, we don't override local postgresql /var/lib/postgres/data
     driver: local
   app-gems:
     driver: local
