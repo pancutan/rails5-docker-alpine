@@ -120,7 +120,7 @@ docker exec -it --user root rails5dockeralpine_web_1 /bin/sh
 Visit your application at http://localhost:3000
 
 # How to work
-Next steps is to add code, migrations and so on to the project. You can enter and code inside the container, or you can work on where project is mount (folder .), which is linked with /usr/src/app
+Next steps are to add code, migrations and so on to the project. You can enter and code inside the container, or you can work on where project is mount (folder .), which is linked with /usr/src/app
 
 ## Enter the container and work inside
 * Database:
@@ -132,9 +132,9 @@ docker exec -it rails5dockeralpine_postgres_1 /bin/bash
 docker exec -it rails5dockeralpine_web_1 /bin/sh
 ```
 
-If you will work on your local mounted folder, go ahead:
+If you want to work on your local mounted folder, go ahead:
 
-First things you have to keep on mid is that scripts must run inside the container.
+First things you have to keep on mind is that scripts must run inside the container.
 Take for instance, I use to debug with Pry. In that so, in Gemfile I remove byebug and put inside, on development and test section:
 ```gemfile
 gem 'pry-auditlog' # Ver en ~/.pryrc en esta carpeta ~/Trucos/Ruby/Debug/
