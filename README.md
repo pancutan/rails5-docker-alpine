@@ -165,13 +165,13 @@ Tested with:
   - DISTRIB_RELEASE=17.1.8
   - DISTRIB_CODENAME=Hakoila
 
+
 # TODO
 At this time (2018/04/14) Rails 5.2 is stable under ruby 2.2.10
 so, try a modern ruby, like 2.4.4 with actual stable Alpine - ruby:2.4.4-alpine3.6
 Ref:
 * https://hub.docker.com/_/ruby/
   * → https://github.com/docker-library/ruby/blob/1bd8b466277668bff50528b26360e6e451e4dae4/2.4/alpine3.6/Dockerfile
-
 
 # Greetings:
 * https://github.com/IcaliaLabs/guides/wiki/Creating-a-new-Rails-application-project-with-Docker

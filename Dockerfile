@@ -66,9 +66,7 @@ EXPOSE 3000
 # spending some time on googling, I’ve came to this:
 # ENV LIBV8_VERSION 3.16.14.18
 
-# Requiere
+# Require
 # RUN apk --update --no-cache add --virtual build-deps build-base python postgresql-dev nodejs g++; \
 #     bundle config build.libv8 --enable-debug && \
 #     LIBV8_VERSION=$LIBV8_VERSION bundle install --without development test && apk del build-deps
-
-
