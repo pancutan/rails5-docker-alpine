@@ -1,0 +1,12 @@
+.git
+
+#
+# Rails
+#
+log
+tmp
+public/system
+coverage/
+spec/tmp
+**.orig
+rerun.txt
