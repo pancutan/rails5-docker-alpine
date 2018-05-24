@@ -1,3 +1,6 @@
+# Basado en https://www.youtube.com/watch?v=kG2vxYn547E
+# y otras fuentes
+
 FROM ruby:2.2.10-alpine3.4
 
 LABEL maintainer="escuelaint@gmail.com"
@@ -8,6 +11,12 @@ LABEL maintainer="escuelaint@gmail.com"
 
 # Minimal requirements to run a Rails app
 # postgresql-client is only to play with bin/rails dbconsole
+
+# If image were with a Ubuntu based distro, equivalent should be
+# RUN apt-get update -y \
+#     apt-get install -y -q package \
+#     apt-get clean \
+#     rm -rf /var/lib/apt/lists/*_*
 RUN apk add --no-cache --update build-base \
                                 linux-headers \
                                 git \
@@ -70,3 +79,6 @@ EXPOSE 3000
 # RUN apk --update --no-cache add --virtual build-deps build-base python postgresql-dev nodejs g++; \
 #     bundle config build.libv8 --enable-debug && \
 #     LIBV8_VERSION=$LIBV8_VERSION bundle install --without development test && apk del build-deps
+
+# Lanzamos desde el docker-compose. Pero si quisieramos lanzar por aquí, independiente...
+# CMD ["bundle","exec","rails","server"]
