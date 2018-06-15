@@ -14,6 +14,8 @@ services:
   postgres:
     # image: postgres:9.5.4 # We'll use the official postgres image.
     image: postgres:10.3-alpine
+    networks:
+      - rails5-docker-alpine-network
     volumes:
       # Mounts a persistable volume inside the postgres data folder, so we
       # don't lose the created databases when this container is removed.
@@ -21,6 +23,9 @@ services:
     environment:
       # The password we'll use to access the databases:
       POSTGRES_PASSWORD: s0m3p455
+    deploy: # Tiene sentido cuando sea desplegado con docker stack deploy
+      placement:
+        constraints: [node.role == manager]
 
   web:
     # Option 1
@@ -48,6 +53,8 @@ services:
     # image: hub.supercanal.tv:5000/biblioteca:testing
     #
     command: rails server -b 0.0.0.0 -p 3000
+    networks: # Ver la diferencia con el networks de la base:
+      - rails5-docker-alpine-network # aca lleva - porque es el ultimo nodo yml
     ports:
       # This will bind your port 3000 with the container's port 3000, so we can
       # use 'http://localhost:3000' to see our Rails app:
@@ -74,3 +81,30 @@ services:
       # We'll use this env variable to make the log output gets directed
       # to Docker:
       RAILS_LOG_TO_STDOUT: "true"
+    deploy: # Tiene sentido cuando sea desplegado con docker stack deploy
+      mode: replicated
+      replicas: 2
+      labels: [APP=WEB]
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: continue
+        monitor: 60s
+        max_failure_ratio: 0.3
+      placement:
+        constraints: [node.role == worker]
+
+networks:
+    rails5-docker-alpine-network:
