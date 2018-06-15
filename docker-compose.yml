@@ -1,12 +1,12 @@
-version: "2"
+version: "3"
 
 volumes:
   postgres-data:
     # "local" → Means that will store on /var/lib/docker/volumes/
     #           By this way, we don't override local postgresql /var/lib/postgres/data
     driver: local
-  app-gems:
-    driver: local
+  # app-gems:
+    # driver: local
 
 services:
 
@@ -22,16 +22,29 @@ services:
       POSTGRES_PASSWORD: s0m3p455
 
   web:
-    # Option 1 - Build locally,
-    # build:
-    #    context: .
-    #    dockerfile: Dockerfile
+    # Option 1
+    # Build locally:
+    build:
+      context: .
+      dockerfile: Dockerfile
     #
-    # Option 2 - Bring from Dockerhub
-    # image: pancutan/biblioteca:development
+    # Options 2
+    # Don't build: use a image previously built with docker command:
+    # 2.1: Local previously built with
+    #      docker build . -t localhost/biblioteca:testing
+    # In this case, we call to local cache:
+    # image: localhost/biblioteca:testing
     #
+    # 2.2: Local previously built, and pushed to registry
+    #      docker build . -t hub.supercanal.tv:5000/biblioteca:testing
+    #      docker push hub.supercanal.tv:5000/biblioteca:testin
+    # image: hub.supercanal.tv:5000/biblioteca:testing
     # Option 3 - Bring from intranet registry
-    image: hub.supercanal.tv:5000/biblioteca
+    # 3.1: local cache
+    # image: localhost/biblioteca:testing
+    #
+    # 3.2: local registry
+    # image: hub.supercanal.tv:5000/biblioteca:testing
     #
     command: rails server -b 0.0.0.0 -p 3000
     ports:
@@ -48,7 +61,7 @@ services:
       - .:/usr/src/app
       # Mounts a persistable volume in the installed gems folder, so we can add
       # gems to the app without having to build the development image again:
-      - app-gems:/usr/local/bundle
+      # - app-gems:/usr/local/bundle
     # Keeps the stdin open, so we can attach to our app container's process and
     # do stuff such as `byebug` or `binding.pry`:
     stdin_open: true

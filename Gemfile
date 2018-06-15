@@ -1,10 +1,16 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.2.10'
+ruby '2.3.7'
+
+# Necesario para debuggear con rubymine dentro de docker
+# https://blog.jetbrains.com/ruby/2017/06/rubymine-2017-2-eap-5-debugging-with-docker-compose/
+gem 'debase'
+gem 'ruby-debug-ide'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.0'
+
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
@@ -38,21 +44,21 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  # gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'pry-auditlog' # Ver en ~/.pryrc en esta carpeta ~/Trucos/Ruby/Debug/
-
-  gem 'pry'
-  gem 'pry-byebug'
-
-  #Agregue también soporte para entrar en modo debugging automatico en caso que salten excepciones:
-
-  gem 'pry-rescue'
-  gem 'pry-stack_explorer'
-
-  gem 'pry-auditlog'
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  # gem 'pry-auditlog' # Ver en ~/.pryrc en esta carpeta ~/Trucos/Ruby/Debug/
+  #
+  # gem 'pry'
+  # gem 'pry-byebug'
+  #
+  # #Agregue también soporte para entrar en modo debugging automatico en caso que salten excepciones:
+  #
+  # gem 'pry-rescue'
+  # gem 'pry-stack_explorer'
+  #
+  # gem 'pry-auditlog'
 
   #Agregue soporte de pry para la Rails Console
-  gem 'pry-rails'
+  # gem 'pry-rails'
 
   #Agregue colores y formateo a las salidas de la rails console
   gem 'awesome_print'

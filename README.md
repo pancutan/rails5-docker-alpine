@@ -38,10 +38,10 @@ Sometimes restart is needed. To avoid, do on each terminal:
 source ~/.profile
 ```
 
-## Install ruby 2.2.10
+## Install ruby 2.3.7
 ```
-rvm install ruby-2.2.10 --default
-rvm use ruby-2.2.10
+rvm install ruby-2.3.7 --default
+rvm use ruby-2.3.7
 gem install rails
 ```
 
@@ -50,7 +50,7 @@ gem install rails
 which ruby
 ```
 Result should be something like
-/home/your-user/.rvm/rubies/ruby-2.2.10/bin/ruby
+/home/your-user/.rvm/rubies/ruby-2.3.7/bin/ruby
 
 If ruby is provided by /usr/bin/ruby, uninstall it of your linux
 package manager (apt, pacman, etc)
@@ -78,25 +78,15 @@ default: &default
 
 ## Unless you do testing, comment database section
 
-# Build the project:
-
-```sh
-docker-compose build
-```
-
-# Create the database and run the migrations:
+# Build and tag the project
 
 ```
-docker-compose run --rm web bin/rails db:create
-docker-compose run --rm web bin/rails db:migrate
+docker build . -t localhost/biblioteca:testing
 ```
 
-# Run the app
-This is for first time to check things. Add -d if you want to detach.
-
-```sh
-docker-compose run --rm web /bin/sh
-COMPOSE_HTTP_TIMEOUT=200 docker-compose up -d
+In my case, I use to tag image with a private, secure registry installed on LAN
+```
+docker build . -t hub.supercanal.tv:5000/biblioteca:testing
 ```
 
 # Exercises, just for fun
@@ -127,6 +117,7 @@ Next steps are to add code, migrations and so on to the project. You can enter a
 ```bash
 docker exec -it rails5dockeralpine_postgres_1 /bin/bash
 ```
+
 * Web app:
 ```bash
 docker exec -it rails5dockeralpine_web_1 /bin/sh
@@ -153,8 +144,23 @@ docker-compose run --rm web bin/bundle install
 docker-compose run --rm web bin/rails generate scaffold author name:string surname:string
 ```
 
+# Create the database and run the migrations:
+
+```
+docker-compose run --rm web bin/rails db:create
+docker-compose run --rm web bin/rails db:migrate
+```
+
+# Run the app
+This is only for first time to check things. Add -d if you want to detach.
+
+```sh
+docker-compose run --rm web /bin/sh
+COMPOSE_HTTP_TIMEOUT=200 docker-compose up -d
+```
+
 Tested with:
-- Ruby 2.2.10
+- Ruby 2.3.7
 - Rails 5.2 (to create the new application)
 - Docker version 18.03.0-ce, build 0520e2430
 - docker-compose version 1.21.0, build unknown
@@ -164,14 +170,6 @@ Tested with:
   - DISTRIB_ID=ManjaroLinux
   - DISTRIB_RELEASE=17.1.8
   - DISTRIB_CODENAME=Hakoila
-
-
-# TODO
-At this time (2018/04/14) Rails 5.2 is stable under ruby 2.2.10
-so, try a modern ruby, like 2.4.4 with actual stable Alpine - ruby:2.4.4-alpine3.6
-Ref:
-* https://hub.docker.com/_/ruby/
-  * → https://github.com/docker-library/ruby/blob/1bd8b466277668bff50528b26360e6e451e4dae4/2.4/alpine3.6/Dockerfile
 
 # Greetings:
 * https://github.com/IcaliaLabs/guides/wiki/Creating-a-new-Rails-application-project-with-Docker

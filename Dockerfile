@@ -1,7 +1,17 @@
-# Basado en https://www.youtube.com/watch?v=kG2vxYn547E
-# y otras fuentes
+# Based on https://www.youtube.com/watch?v=kG2vxYn547E
+# and another sources
 
-FROM ruby:2.2.10-alpine3.4
+# In case of change ruby & alpine image from dockerhub
+# remove old images and containers previous to do build
+# Then, docker build .
+# *** A new alpine download should appear ***
+
+# After that, docker-compose will look for same old image on private registry
+# So, instead, tag this new image - Ex: docker tag 07c38c57a9fe  hub.supercanal.tv:5000/biblioteca
+# Then, push then to private registry:
+# docker push hub.supercanal.tv:5000/biblioteca
+
+FROM ruby:2.3.7-alpine3.7
 
 LABEL maintainer="escuelaint@gmail.com"
 
@@ -34,6 +44,18 @@ ENV LANG C.UTF-8
 
 WORKDIR /usr/src/app
 
+# Note: later, you can copy to/from the instance by using "docker cp"
+COPY sudoers /etc
+COPY Gemfile /usr/src/app
+COPY Gemfile.lock /usr/src/app
+
+RUN bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3
+RUN gem pristine --all
+
+# Copy the application into the container.
+# Prefer COPY instead ADD - see https://stackoverflow.com/questions/24958140/what-is-the-difference-between-the-copy-and-add-commands-in-a-dockerfile
+COPY . /usr/src/app
+
 # To prevent root owned files created by the container, on host filesystem
 # En Ubuntu: RUN adduser --system --group --shell /bin/sh s \
 #                && mkdir /home/s && chown s:s /usr/src/app -R
@@ -43,20 +65,12 @@ WORKDIR /usr/src/app
 # docker exec -it rails5dockeralpine_web_1 /bin/sh
 RUN addgroup -S s && \
     adduser -u 1000 -h /home/s -D -s /bin/sh -G wheel s && \
-    chown s:s /usr/src/app -R
+    chown s:s /usr/src/app -R && \
+    chown s:s /usr/local/lib/ruby/gems/ -R && \
+    chown s:s /usr/local/bin -R && \
+    chown s:s /usr/local/bundle -R
 
 USER s
-
-# Note: later, you can copy to/from the instance by using "docker cp"
-COPY sudoers /etc
-COPY Gemfile /usr/src/app
-COPY Gemfile.lock /usr/src/app
-
-RUN bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3
-
-# Copy the application into the container.
-# Prefer COPY instead ADD - see https://stackoverflow.com/questions/24958140/what-is-the-difference-between-the-copy-and-add-commands-in-a-dockerfile
-COPY . /usr/src/app
 
 EXPOSE 3000
 
