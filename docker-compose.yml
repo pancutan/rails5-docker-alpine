@@ -12,8 +12,12 @@ volumes:
 services:
 
   postgres:
-    # image: postgres:9.5.4 # We'll use the official postgres image.
-    image: postgres:10.3-alpine
+    # Dev
+    # image: postgres:10.3-alpine
+    #
+    # Prd
+    image: hub.supercanal.tv:5000/biblioteca-base
+    
     networks:
       - rails5-docker-alpine-network
     volumes:
@@ -38,8 +42,8 @@ services:
     # Don't build: use a image previously built with docker command:
     # 2.1: Local previously built with
     #      docker build . -t localhost/biblioteca:testing
-    # In this case, we call to local cache:
     # image: localhost/biblioteca:testing
+    # In this case, we call to local cache:
     #
     # 2.2: Local previously built, and pushed to registry
     #      docker build . -t hub.supercanal.tv:5000/biblioteca:testing

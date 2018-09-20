@@ -49,8 +49,13 @@ gem install rails
 ```
 which ruby
 ```
+or
+```
+whereis ruby
+```
+
 Result should be something like
-/home/your-user/.rvm/rubies/ruby-2.3.7/bin/ruby
+$HOME/.rvm/rubies/ruby-2.3.7/bin/ruby
 
 If ruby is provided by /usr/bin/ruby, uninstall it of your linux
 package manager (apt, pacman, etc)
@@ -138,7 +143,8 @@ gem 'pry-rails'
 gem 'awesome_print'
 ```
 
-After that, a bundled is needed:
+After that, a bundled is needed
+Use docker exec or docker-compose run --rm web if you want to adjust first things on database via ruby or rails scripts:
 ```bash
 docker-compose run --rm web bin/bundle install
 docker-compose run --rm web bin/rails generate scaffold author name:string surname:string
@@ -152,15 +158,12 @@ docker-compose run --rm web bin/rails db:migrate
 ```
 
 # Run the app
-This is only for first time to check things. Add -d if you want to detach.
-
 ```sh
-docker-compose run --rm web /bin/sh
 COMPOSE_HTTP_TIMEOUT=200 docker-compose up -d
 ```
 
 Tested with:
-- Ruby 2.3.7
+- Ruby 2.3.7 - TODO: go to 2.4, as 2.3 became depreacted on september 2018
 - Rails 5.2 (to create the new application)
 - Docker version 18.03.0-ce, build 0520e2430
 - docker-compose version 1.21.0, build unknown
